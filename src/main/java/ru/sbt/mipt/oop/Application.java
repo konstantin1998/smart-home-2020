@@ -23,12 +23,6 @@ public class Application {
         }
     }
 
-    private static SmartHome createHome(String fileName) throws IOException {
-        Gson gson = new Gson();
-        String json = new String(Files.readAllBytes(Paths.get(fileName)));
-        return gson.fromJson(json, SmartHome.class);
-    }
-
     private static SensorEvent getNextSensorEvent() {
         // pretend like we're getting the events from physical world, but here we're going to just generate some random events
         if (Math.random() < 0.05) return null; // null means end of event stream
@@ -36,4 +30,11 @@ public class Application {
         String objectId = "" + ((int) (10 * Math.random()));
         return new SensorEvent(sensorEventType, objectId);
     }
+
+    private static SmartHome createHome(String fileName) throws IOException {
+        Gson gson = new Gson();
+        String json = new String(Files.readAllBytes(Paths.get(fileName)));
+        return gson.fromJson(json, SmartHome.class);
+    }
+
 }
