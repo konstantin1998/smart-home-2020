@@ -5,7 +5,6 @@ import java.util.Collection;
 public class EventCircle {
     private final Collection<Handler> handlers;
 
-
     EventCircle(Collection<Handler> handlers) {
         this.handlers = handlers;
     }
