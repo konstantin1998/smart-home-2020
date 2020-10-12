@@ -2,9 +2,11 @@ package ru.sbt.mipt.oop;
 
 public class HallHandler implements Handler{
     private final SmartHome home;
+    private final CommandSender commandSender;
 
-    HallHandler(SmartHome home) {
+    HallHandler(SmartHome home, CommandSender commandSender) {
         this.home = home;
+        this.commandSender = commandSender;
     }
 
     private void disableLights() {
@@ -12,7 +14,6 @@ public class HallHandler implements Handler{
             for (Light light : room.getLights()) {
                 light.setOn(false);
                 SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
-                CommandSender commandSender = new CommandSender();
                 commandSender.sendCommand(command);
             }
         }

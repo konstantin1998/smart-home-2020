@@ -4,10 +4,12 @@ import java.util.Collection;
 
 public class EventCircle {
     private final Collection<Handler> handlers;
+    private final EventGenerator eventGenerator;
 
 
-    EventCircle(Collection<Handler> handlers) {
+    EventCircle(Collection<Handler> handlers, EventGenerator eventGenerator) {
         this.handlers = handlers;
+        this.eventGenerator = eventGenerator;
     }
 
     private void handleSingleEvent(SensorEvent event) {
@@ -18,18 +20,11 @@ public class EventCircle {
     }
 
     public void run() {
-        SensorEvent event = getNextSensorEvent();
+        SensorEvent event = eventGenerator.getNextSensorEvent();
         while (event != null) {
             handleSingleEvent(event);
-            event = getNextSensorEvent();
+            event = eventGenerator.getNextSensorEvent();
         }
     }
 
-    private SensorEvent getNextSensorEvent() {
-        // pretend like we're getting the events from physical world, but here we're going to just generate some random events
-        if (Math.random() < 0.05) return null; // null means end of event stream
-        SensorEventType sensorEventType = SensorEventType.values()[(int) (4 * Math.random())];
-        String objectId = "" + ((int) (10 * Math.random()));
-        return new SensorEvent(sensorEventType, objectId);
-    }
 }
