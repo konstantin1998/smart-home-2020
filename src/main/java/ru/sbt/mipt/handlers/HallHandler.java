@@ -1,15 +1,26 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.handlers;
 
-public class HallHandler implements Handler{
+import ru.sbt.mipt.homeAndComponents.Door;
+import ru.sbt.mipt.homeAndComponents.Light;
+import ru.sbt.mipt.homeAndComponents.Room;
+import ru.sbt.mipt.homeAndComponents.SmartHome;
+import ru.sbt.mipt.oop.*;
+import ru.sbt.mipt.sensor.SensorCommand;
+import ru.sbt.mipt.sensor.SensorEvent;
+import ru.sbt.mipt.sensor.SensorEventType;
+
+public class HallHandler implements Handler {
     private final SmartHome home;
+    private final CommandSender commandSender;
 
-    HallHandler(SmartHome home) {
+    public HallHandler(SmartHome home, CommandSender commandSender) {
         this.home = home;
+        this.commandSender = commandSender;
     }
 
     public void handle(SensorEvent event) {
         if (event.getType() == SensorEventType.DOOR_CLOSED) {
-            Action action = (Object obj) -> {
+            home.execute((Object obj) -> {
                 if (obj instanceof Room) {
                     Room room = (Room)obj;
                     if (room.getName().equals("hall")) {
@@ -18,7 +29,6 @@ public class HallHandler implements Handler{
                                 Light light = (Light) item;
                                 light.setOn(false);
                                 SensorCommand command = new SensorCommand(CommandType.LIGHT_OFF, light.getId());
-                                CommandSender commandSender = new CommandSender();
                                 commandSender.sendCommand(command);
                             }
                             if (item instanceof Door) {
@@ -31,8 +41,7 @@ public class HallHandler implements Handler{
                         home.execute(hallAction);
                     }
                 }
-            };
-            home.execute(action);
+            });
         }
     }
 }

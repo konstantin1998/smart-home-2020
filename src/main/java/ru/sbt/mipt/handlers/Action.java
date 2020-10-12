@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.handlers;
 
 public interface Action  {
     void perform(Object item);

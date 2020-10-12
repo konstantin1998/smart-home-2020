@@ -1,29 +1,26 @@
 package ru.sbt.mipt.oop;
 
-import com.google.gson.Gson;
+import ru.sbt.mipt.handlers.DoorHandler;
+import ru.sbt.mipt.handlers.HallHandler;
+import ru.sbt.mipt.handlers.Handler;
+import ru.sbt.mipt.handlers.LightHandler;
+import ru.sbt.mipt.homeAndComponents.SmartHome;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Application {
+public class Application{
 
     public static void main(String... args) throws Exception {
         // считываем состояние дома из файла
-        SmartHome smartHome = createHome("smart-home-1.js");
+        SmartHome smartHome = HomeReader.createHome("smart-home-1.js");
         // начинаем цикл обработки событий
         ArrayList<Handler> handlers = new ArrayList<Handler>();
         handlers.add(new LightHandler(smartHome));
         handlers.add(new DoorHandler(smartHome));
-        handlers.add(new HallHandler(smartHome));
-        EventCircle eventCircle = new EventCircle(handlers);
+        handlers.add(new HallHandler(smartHome, new CommandSender()));
+        EventCircle eventCircle = new EventCircle(handlers, new EventProvider());
         eventCircle.run();
     }
 
-    private static SmartHome createHome(String fileName) throws IOException {
-        Gson gson = new Gson();
-        String json = new String(Files.readAllBytes(Paths.get(fileName)));
-        return gson.fromJson(json, SmartHome.class);
-    }
 }
+

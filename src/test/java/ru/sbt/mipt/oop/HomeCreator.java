@@ -1,5 +1,10 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.homeAndComponents.Door;
+import ru.sbt.mipt.homeAndComponents.Light;
+import ru.sbt.mipt.homeAndComponents.Room;
+import ru.sbt.mipt.homeAndComponents.SmartHome;
+
 import java.util.ArrayList;
 
 public class HomeCreator {

@@ -1,4 +1,6 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.homeAndComponents;
+
+import ru.sbt.mipt.handlers.Action;
 
 import java.util.Collection;
 

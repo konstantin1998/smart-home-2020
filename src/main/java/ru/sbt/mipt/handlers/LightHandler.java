@@ -1,9 +1,14 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.handlers;
 
-public class LightHandler implements Handler{
+import ru.sbt.mipt.homeAndComponents.Light;
+import ru.sbt.mipt.homeAndComponents.SmartHome;
+import ru.sbt.mipt.sensor.SensorEvent;
+import ru.sbt.mipt.sensor.SensorEventType;
+
+public class LightHandler implements Handler {
     private final SmartHome home;
 
-    LightHandler(SmartHome home) {
+    public LightHandler(SmartHome home) {
         this.home = home;
     }
 
