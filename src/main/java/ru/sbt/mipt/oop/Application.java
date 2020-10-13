@@ -21,6 +21,5 @@ public class Application{
         EventCircle eventCircle = new EventCircle(handlers, new EventProvider());
         eventCircle.run();
     }
-
 }
 

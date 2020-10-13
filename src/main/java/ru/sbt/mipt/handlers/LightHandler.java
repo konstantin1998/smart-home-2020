@@ -1,5 +1,6 @@
 package ru.sbt.mipt.handlers;
 
+import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Light;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
 import ru.sbt.mipt.sensor.SensorEvent;
@@ -12,6 +13,7 @@ public class LightHandler implements Handler {
         this.home = home;
     }
 
+    @Override
     public void handle(SensorEvent event) {
         if (event.getType() == SensorEventType.LIGHT_ON) {
             Action action = (Object obj) -> {

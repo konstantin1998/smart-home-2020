@@ -1,9 +1,6 @@
 package ru.sbt.mipt.handlers;
 
-import ru.sbt.mipt.homeAndComponents.Door;
-import ru.sbt.mipt.homeAndComponents.Light;
-import ru.sbt.mipt.homeAndComponents.Room;
-import ru.sbt.mipt.homeAndComponents.SmartHome;
+import ru.sbt.mipt.homeAndComponents.*;
 import ru.sbt.mipt.oop.*;
 import ru.sbt.mipt.sensor.SensorCommand;
 import ru.sbt.mipt.sensor.SensorEvent;
@@ -18,6 +15,7 @@ public class HallHandler implements Handler {
         this.commandSender = commandSender;
     }
 
+    @Override
     public void handle(SensorEvent event) {
         if (event.getType() == SensorEventType.DOOR_CLOSED) {
             home.execute((Object obj) -> {

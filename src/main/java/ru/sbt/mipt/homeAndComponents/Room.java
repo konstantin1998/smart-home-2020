@@ -1,7 +1,5 @@
 package ru.sbt.mipt.homeAndComponents;
 
-import ru.sbt.mipt.handlers.Action;
-
 import java.util.Collection;
 
 public class Room implements Actionable {

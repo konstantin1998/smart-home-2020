@@ -1,7 +1,7 @@
 package ru.sbt.mipt.oop;
 
 import org.junit.Test;
-import ru.sbt.mipt.handlers.Action;
+import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.handlers.LightHandler;
 import ru.sbt.mipt.homeAndComponents.Light;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
