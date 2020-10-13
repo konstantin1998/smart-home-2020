@@ -2,8 +2,8 @@ package ru.sbt.mipt.alarm;
 import ru.sbt.mipt.sensor.SensorEvent;
 
 public interface AlarmState {
-    void activate();
-    void deactivate();
+    void activate(String code);
+    void deactivate(String code);
     void switchToAnxietyMode();
     boolean isDeactivated();
     void handle(SensorEvent event);

@@ -17,7 +17,7 @@ public class AlarmHandler implements Handler{
             alarm.execute((Object obj) -> {
                 if (obj instanceof Alarm) {
                     Alarm currentAlarm = (Alarm)obj;
-                    currentAlarm.activate();
+                    currentAlarm.activate(SensorEventType.ALARM_ACTIVATE.getCode());
                 }
             });
         }
@@ -26,7 +26,7 @@ public class AlarmHandler implements Handler{
             alarm.execute((Object obj) -> {
                 if (obj instanceof Alarm) {
                     Alarm currentAlarm = (Alarm)obj;
-                    currentAlarm.deactivate();
+                    currentAlarm.deactivate(SensorEventType.ALARM_DEACTIVATE.getCode());
                 }
             });
         }

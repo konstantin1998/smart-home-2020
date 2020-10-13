@@ -10,13 +10,18 @@ public class Anxiety implements AlarmState {
         this.alarm = alarm;
     }
     @Override
-    public void activate() {
+    public void activate(String code) {
         alarm.switchState(new Activated(alarm));
+        alarm.setCode(code);
     }
 
     @Override
-    public void deactivate() {
-        alarm.switchState(new Deactivated(alarm));
+    public void deactivate(String code) {
+        if (code.equals(alarm.getCode())) {
+            alarm.switchState(new Deactivated(alarm));
+        } else {
+            alarm.switchState(new Anxiety(alarm));
+        }
     }
 
     @Override

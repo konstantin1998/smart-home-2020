@@ -10,9 +10,9 @@ public class LightHandlerDecorator implements Handler {
     private final Alarm alarm;
     private final LightHandler lightHandler;
 
-    LightHandlerDecorator(SmartHome home, Alarm alarm) {
+    public LightHandlerDecorator(Alarm alarm, LightHandler lightHandler) {
         this.alarm = alarm;
-        lightHandler = new LightHandler(home);
+        this.lightHandler = lightHandler;
     }
 
     @Override

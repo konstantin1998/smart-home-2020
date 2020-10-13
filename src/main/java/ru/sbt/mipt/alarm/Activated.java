@@ -1,6 +1,5 @@
 package ru.sbt.mipt.alarm;
 
-import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.sensor.SensorEvent;
 
 public class Activated implements AlarmState{
@@ -11,12 +10,17 @@ public class Activated implements AlarmState{
     }
 
     @Override
-    public void activate() {
+    public void activate(String code) {
     }
 
     @Override
-    public void deactivate() {
-        alarm.switchState(new Deactivated(alarm));
+    public void deactivate(String code) {
+        if (code.equals(alarm.getCode())) {
+            alarm.switchState(new Deactivated(alarm));
+        } else {
+            alarm.switchState(new Anxiety(alarm));
+        }
+
     }
 
     @Override

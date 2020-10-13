@@ -10,12 +10,13 @@ public class Deactivated implements AlarmState {
     }
 
     @Override
-    public void activate() {
+    public void activate(String code) {
         alarm.switchState(new Activated(alarm));
+        alarm.setCode(code);
     }
 
     @Override
-    public void deactivate() {
+    public void deactivate(String code) {
     }
 
     @Override

@@ -10,9 +10,9 @@ public class DoorHandlerDecorator implements Handler {
     private final DoorHandler doorHandler;
     private final Alarm alarm;
 
-    public DoorHandlerDecorator(SmartHome home, Alarm alarm) {
+    public DoorHandlerDecorator(Alarm alarm, DoorHandler doorHandler) {
         this.alarm = alarm;
-        this.doorHandler = new DoorHandler(home);
+        this.doorHandler = doorHandler;
     }
 
     @Override
