@@ -5,6 +5,5 @@ public interface AlarmState {
     void activate(String code);
     void deactivate(String code);
     void switchToAnxietyMode();
-    boolean isDeactivated();
-    void handle(SensorEvent event);
+    void reactToEvent(SensorEvent event);
 }

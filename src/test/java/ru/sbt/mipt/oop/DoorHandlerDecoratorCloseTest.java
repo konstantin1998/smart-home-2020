@@ -1,9 +1,8 @@
 package ru.sbt.mipt.oop;
 
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import ru.sbt.mipt.alarm.Alarm;
-import ru.sbt.mipt.decoratedHandlers.DoorHandlerDecorator;
+import ru.sbt.mipt.handlers.Decorator;
 import ru.sbt.mipt.handlers.DoorHandler;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Door;
@@ -43,8 +42,8 @@ public class DoorHandlerDecoratorCloseTest {
         String code = "123";
         alarm.activate(code);
         DoorHandler doorHandler = new DoorHandler(home);
-        DoorHandlerDecorator doorHandlerDecorator = new DoorHandlerDecorator(alarm, doorHandler);
-        doorHandlerDecorator.handle(event);
+        Decorator decorator = new Decorator(alarm, doorHandler);
+        decorator.handle(event);
         //when
         boolean isTrue = testDoor.isOpen();
         //then
@@ -57,8 +56,8 @@ public class DoorHandlerDecoratorCloseTest {
         init();
         Alarm alarm = new Alarm();
         DoorHandler doorHandler = new DoorHandler(home);
-        DoorHandlerDecorator doorHandlerDecorator = new DoorHandlerDecorator(alarm, doorHandler);
-        doorHandlerDecorator.handle(event);
+        Decorator decorator = new Decorator(alarm, doorHandler);
+        decorator.handle(event);
         //when
         boolean isFalse = testDoor.isOpen();
         //then
@@ -72,8 +71,8 @@ public class DoorHandlerDecoratorCloseTest {
         Alarm alarm = new Alarm();
         alarm.switchToAnxietyMode();
         DoorHandler doorHandler = new DoorHandler(home);
-        DoorHandlerDecorator doorHandlerDecorator = new DoorHandlerDecorator(alarm, doorHandler);
-        doorHandlerDecorator.handle(event);
+        Decorator decorator = new Decorator(alarm, doorHandler);
+        decorator.handle(event);
         //when
         boolean isTrue = testDoor.isOpen();
         //then

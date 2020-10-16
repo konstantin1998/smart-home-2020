@@ -2,10 +2,10 @@ package ru.sbt.mipt.alarm;
 
 import ru.sbt.mipt.sensor.SensorEvent;
 
-public class Activated implements AlarmState{
+public class ActivatedState implements AlarmState{
     private final Alarm alarm;
 
-    Activated(Alarm alarm) {
+    ActivatedState(Alarm alarm) {
         this.alarm = alarm;
     }
 
@@ -16,26 +16,21 @@ public class Activated implements AlarmState{
     @Override
     public void deactivate(String code) {
         if (code.equals(alarm.getCode())) {
-            alarm.switchState(new Deactivated(alarm));
+            alarm.switchState(new DeactivatedState(alarm));
         } else {
-            alarm.switchState(new Anxiety(alarm));
+            alarm.switchState(new AnxietyState(alarm));
         }
 
     }
 
     @Override
     public void switchToAnxietyMode() {
-        alarm.switchState(new Anxiety(alarm));
+        alarm.switchState(new AnxietyState(alarm));
     }
 
     @Override
-    public boolean isDeactivated() {
-        return false;
-    }
-
-    @Override
-    public void handle(SensorEvent event) {
+    public void reactToEvent(SensorEvent event) {
         System.out.println("Sending sms");
-        alarm.switchState(new Anxiety(alarm));
+        alarm.switchState(new AnxietyState(alarm));
     }
 }

@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop;
 
 import org.junit.Test;
 import ru.sbt.mipt.alarm.Alarm;
-import ru.sbt.mipt.decoratedHandlers.LightHandlerDecorator;
+import ru.sbt.mipt.handlers.Decorator;
 import ru.sbt.mipt.handlers.LightHandler;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Light;
@@ -41,8 +41,8 @@ public class LightHandlerDecoratorTurnOffTest {
         String code = "123";
         alarm.activate(code);
         LightHandler lightHandler = new LightHandler(home);
-        LightHandlerDecorator lightHandlerDecorator = new LightHandlerDecorator(alarm, lightHandler);
-        lightHandlerDecorator.handle(event);
+        Decorator decorator = new Decorator(alarm, lightHandler);
+        decorator.handle(event);
         //when
         boolean isTrue = testLight.isOn();
         //then
@@ -55,8 +55,8 @@ public class LightHandlerDecoratorTurnOffTest {
         init();
         Alarm alarm = new Alarm();
         LightHandler lightHandler = new LightHandler(home);
-        LightHandlerDecorator lightHandlerDecorator = new LightHandlerDecorator(alarm, lightHandler);
-        lightHandlerDecorator.handle(event);
+        Decorator decorator = new Decorator(alarm, lightHandler);
+        decorator.handle(event);
         //when
         boolean isFalse = testLight.isOn();
         //then
@@ -70,8 +70,8 @@ public class LightHandlerDecoratorTurnOffTest {
         Alarm alarm = new Alarm();
         alarm.switchToAnxietyMode();
         LightHandler lightHandler = new LightHandler(home);
-        LightHandlerDecorator lightHandlerDecorator = new LightHandlerDecorator(alarm, lightHandler);
-        lightHandlerDecorator.handle(event);
+        Decorator decorator = new Decorator(alarm, lightHandler);
+        decorator.handle(event);
         //when
         boolean isTrue = testLight.isOn();
         //then

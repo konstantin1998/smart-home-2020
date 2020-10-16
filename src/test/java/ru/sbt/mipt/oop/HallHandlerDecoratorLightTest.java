@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop;
 
 import org.junit.Test;
 import ru.sbt.mipt.alarm.Alarm;
-import ru.sbt.mipt.decoratedHandlers.HallHandlerDecorator;
+import ru.sbt.mipt.handlers.Decorator;
 import ru.sbt.mipt.handlers.HallHandler;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Light;
@@ -36,8 +36,8 @@ public class HallHandlerDecoratorLightTest {
         Alarm alarm = new Alarm();
         String code = "123";
         alarm.activate(code);
-        HallHandlerDecorator hallHandlerDecorator = new HallHandlerDecorator(alarm, hallHandler);
-        hallHandlerDecorator.handle(event);
+        Decorator decorator = new Decorator(alarm, hallHandler);
+        decorator.handle(event);
 
         Action action = (Object obj) -> {
             if (obj instanceof Light) {
@@ -62,8 +62,8 @@ public class HallHandlerDecoratorLightTest {
         init();
         HallHandler hallHandler = new HallHandler(home, new CommandSender());
         Alarm alarm = new Alarm();
-        HallHandlerDecorator hallHandlerDecorator = new HallHandlerDecorator(alarm, hallHandler);
-        hallHandlerDecorator.handle(event);
+        Decorator decorator = new Decorator(alarm, hallHandler);
+        decorator.handle(event);
         //when
         Action action = (Object obj) -> {
             if (obj instanceof Light) {
@@ -85,8 +85,8 @@ public class HallHandlerDecoratorLightTest {
         Alarm alarm = new Alarm();
 
         alarm.switchToAnxietyMode();
-        HallHandlerDecorator hallHandlerDecorator = new HallHandlerDecorator(alarm, hallHandler);
-        hallHandlerDecorator.handle(event);
+        Decorator decorator = new Decorator(alarm, hallHandler);
+        decorator.handle(event);
 
         Action action = (Object obj) -> {
             if (obj instanceof Light) {

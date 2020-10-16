@@ -4,17 +4,12 @@ import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Actionable;
 import ru.sbt.mipt.sensor.SensorEvent;
 
-public class Alarm implements AlarmState, Actionable {
+public class Alarm implements Actionable {
     private AlarmState state;
     private String code;
 
-//    public Alarm(AlarmState state){
-//        this.state = state;
-//        code = "";
-//    }
-
     public Alarm() {
-        state = new Deactivated(this);
+        state = new DeactivatedState(this);
         code = "";
     }
 
@@ -26,33 +21,28 @@ public class Alarm implements AlarmState, Actionable {
         return code;
     }
 
-    public void switchState(AlarmState state) {
+    void switchState(AlarmState state) {
         this.state = state;
     }
 
-    @Override
     public void activate(String code) {
         state.activate(code);
     }
 
-    @Override
     public void deactivate(String code) {
         state.deactivate(code);
     }
 
-    @Override
     public void switchToAnxietyMode() {
         state.switchToAnxietyMode();
     }
 
-    @Override
     public boolean isDeactivated() {
-        return state.isDeactivated();
+        return state instanceof DeactivatedState;
     }
 
-    @Override
-    public void handle(SensorEvent event) {
-        state.handle(event);
+    public void reactToEvent(SensorEvent event) {
+        state.reactToEvent(event);
     }
 
     @Override
