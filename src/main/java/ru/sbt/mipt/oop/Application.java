@@ -11,7 +11,7 @@ public class Application {
 
     public static void main(String... args) throws Exception {
         // считываем состояние дома из файла
-        SmartHome smartHome = createHome("smart-home-1.js");
+        SmartHome smartHome = HomeReader.createHome("smart-home-1.js");
         // начинаем цикл обработки событий
         ArrayList<Handler> handlers = new ArrayList<Handler>();
         handlers.add(new LightHandler(smartHome));
@@ -19,11 +19,5 @@ public class Application {
         handlers.add(new HallHandler(smartHome));
         EventCircle eventCircle = new EventCircle(handlers);
         eventCircle.run();
-    }
-
-    private static SmartHome createHome(String fileName) throws IOException {
-        Gson gson = new Gson();
-        String json = new String(Files.readAllBytes(Paths.get(fileName)));
-        return gson.fromJson(json, SmartHome.class);
     }
 }
