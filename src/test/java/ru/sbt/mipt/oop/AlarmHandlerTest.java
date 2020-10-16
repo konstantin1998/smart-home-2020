@@ -16,7 +16,7 @@ public class AlarmHandlerTest {
         Alarm alarm = new Alarm();
         AlarmHandler alarmHandler = new AlarmHandler(alarm);
         String id = "1";
-        alarmHandler.handle(new SensorEvent(SensorEventType.ALARM_ACTIVATE, id));
+        alarmHandler.handle(new SensorEvent(SensorEventType.ALARM_ACTIVATE, id, "123"));
         //when
         boolean isFalse = alarm.isDeactivated();
         //then
@@ -29,9 +29,9 @@ public class AlarmHandlerTest {
         Alarm alarm = new Alarm();
         AlarmHandler alarmHandler = new AlarmHandler(alarm);
         String id = "1";
-        String code = SensorEventType.ALARM_DEACTIVATE.getCode();
+        String code = "123";
         alarm.activate(code);
-        alarmHandler.handle(new SensorEvent(SensorEventType.ALARM_DEACTIVATE, id));
+        alarmHandler.handle(new SensorEvent(SensorEventType.ALARM_DEACTIVATE, id, code));
         //when
         boolean isTrue = alarm.isDeactivated();
         //then
