@@ -23,7 +23,4 @@ public class DeactivatedState implements AlarmState {
         alarm.switchState(new AnxietyState(alarm));
     }
 
-    @Override
-    public void reactToEvent(SensorEvent event) {
-    }
 }

@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop;
 
 import org.junit.Test;
 import ru.sbt.mipt.alarm.Alarm;
-import ru.sbt.mipt.handlers.Decorator;
+import ru.sbt.mipt.handlers.AlarmDecorator;
 import ru.sbt.mipt.handlers.HallHandler;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Light;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class HallHandlerDecoratorLightTest {
+public class HallHandlerAlarmDecoratorLightTest {
     private final ArrayList<Boolean> expectedLightStates = new ArrayList<Boolean>();
     private final ArrayList<Boolean> actualLightStates = new ArrayList<Boolean>();
     private SmartHome home;
@@ -36,8 +36,8 @@ public class HallHandlerDecoratorLightTest {
         Alarm alarm = new Alarm();
         String code = "123";
         alarm.activate(code);
-        Decorator decorator = new Decorator(alarm, hallHandler);
-        decorator.handle(event);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler);
+        alarmDecorator.handle(event);
 
         Action action = (Object obj) -> {
             if (obj instanceof Light) {
@@ -62,8 +62,8 @@ public class HallHandlerDecoratorLightTest {
         init();
         HallHandler hallHandler = new HallHandler(home, new CommandSender());
         Alarm alarm = new Alarm();
-        Decorator decorator = new Decorator(alarm, hallHandler);
-        decorator.handle(event);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler);
+        alarmDecorator.handle(event);
         //when
         Action action = (Object obj) -> {
             if (obj instanceof Light) {
@@ -85,8 +85,8 @@ public class HallHandlerDecoratorLightTest {
         Alarm alarm = new Alarm();
 
         alarm.switchToAnxietyMode();
-        Decorator decorator = new Decorator(alarm, hallHandler);
-        decorator.handle(event);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler);
+        alarmDecorator.handle(event);
 
         Action action = (Object obj) -> {
             if (obj instanceof Light) {

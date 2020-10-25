@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop;
 
 import org.junit.Test;
 import ru.sbt.mipt.alarm.Alarm;
-import ru.sbt.mipt.handlers.Decorator;
+import ru.sbt.mipt.handlers.AlarmDecorator;
 import ru.sbt.mipt.handlers.LightHandler;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Light;
@@ -13,7 +13,7 @@ import ru.sbt.mipt.sensor.SensorEventType;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LightHandlerDecoratorTurnOnTest {
+public class LightHandlerAlarmDecoratorTurnOnTest {
     private Light testLight;
     private SmartHome home;
     private SensorEvent event;
@@ -41,8 +41,8 @@ public class LightHandlerDecoratorTurnOnTest {
         String code = "123";
         alarm.activate(code);
         LightHandler lightHandler = new LightHandler(home);
-        Decorator decorator = new Decorator(alarm, lightHandler);
-        decorator.handle(event);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, lightHandler);
+        alarmDecorator.handle(event);
         //when
         boolean isFalse = testLight.isOn();
         //then
@@ -55,8 +55,8 @@ public class LightHandlerDecoratorTurnOnTest {
         init();
         Alarm alarm = new Alarm();
         LightHandler lightHandler = new LightHandler(home);
-        Decorator decorator = new Decorator(alarm, lightHandler);
-        decorator.handle(event);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, lightHandler);
+        alarmDecorator.handle(event);
         //when
         boolean isTrue = testLight.isOn();
         //then
@@ -70,8 +70,8 @@ public class LightHandlerDecoratorTurnOnTest {
         Alarm alarm = new Alarm();
         alarm.switchToAnxietyMode();
         LightHandler lightHandler = new LightHandler(home);
-        Decorator decorator = new Decorator(alarm, lightHandler);
-        decorator.handle(event);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, lightHandler);
+        alarmDecorator.handle(event);
         //when
         boolean isFalse = testLight.isOn();
         //then

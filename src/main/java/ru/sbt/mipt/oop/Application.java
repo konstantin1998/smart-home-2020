@@ -1,9 +1,7 @@
 package ru.sbt.mipt.oop;
 
-import ru.sbt.mipt.handlers.DoorHandler;
-import ru.sbt.mipt.handlers.HallHandler;
-import ru.sbt.mipt.handlers.Handler;
-import ru.sbt.mipt.handlers.LightHandler;
+import ru.sbt.mipt.alarm.Alarm;
+import ru.sbt.mipt.handlers.*;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
 
 import java.util.ArrayList;
@@ -15,9 +13,10 @@ public class Application{
         SmartHome smartHome = HomeReader.createHome("smart-home-1.js");
         // начинаем цикл обработки событий
         ArrayList<Handler> handlers = new ArrayList<Handler>();
-        handlers.add(new LightHandler(smartHome));
-        handlers.add(new DoorHandler(smartHome));
-        handlers.add(new HallHandler(smartHome, new CommandSender()));
+        Alarm alarm = new Alarm();
+        handlers.add(new AlarmDecorator(alarm, new LightHandler(smartHome)));
+        handlers.add(new AlarmDecorator(alarm, new DoorHandler(smartHome)));
+        handlers.add(new AlarmDecorator(alarm, new HallHandler(smartHome, new CommandSender())));
         EventCircle eventCircle = new EventCircle(handlers, new EventProvider());
         eventCircle.run();
     }

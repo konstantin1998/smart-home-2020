@@ -1,19 +1,20 @@
 package ru.sbt.mipt.oop;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import ru.sbt.mipt.alarm.Alarm;
-import ru.sbt.mipt.handlers.Decorator;
+import ru.sbt.mipt.handlers.AlarmDecorator;
 import ru.sbt.mipt.handlers.DoorHandler;
+import ru.sbt.mipt.handlers.HallHandler;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Door;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
 import ru.sbt.mipt.sensor.SensorEvent;
 import ru.sbt.mipt.sensor.SensorEventType;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DoorHandlerDecoratorCloseTest {
+public class HallHandlerAlarmDecoratorDoorTest {
     private Door testDoor;
     private SmartHome home;
     private SensorEvent event;
@@ -21,7 +22,7 @@ public class DoorHandlerDecoratorCloseTest {
     private void init() {
         HomeCreator homeCreator = new HomeCreator();
         home = homeCreator.createHome();
-        SensorEvent event = new SensorEvent(SensorEventType.DOOR_CLOSED, "1");
+        SensorEvent event = new SensorEvent(SensorEventType.DOOR_CLOSED, "3");
         this.event = event;
         Action action = (Object obj) -> {
             if (obj instanceof Door) {
@@ -35,15 +36,15 @@ public class DoorHandlerDecoratorCloseTest {
     }
 
     @Test
-    public void closeClosesDoorWhenAlarmIsActivated() {
+    public void closeChecksIfDoorIsClosed() {
         //given
         init();
         Alarm alarm = new Alarm();
         String code = "123";
         alarm.activate(code);
-        DoorHandler doorHandler = new DoorHandler(home);
-        Decorator decorator = new Decorator(alarm, doorHandler);
-        decorator.handle(event);
+        HallHandler hallHandler = new HallHandler(home, new CommandSender());
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler);
+        alarmDecorator.handle(event);
         //when
         boolean isTrue = testDoor.isOpen();
         //then
@@ -56,12 +57,12 @@ public class DoorHandlerDecoratorCloseTest {
         init();
         Alarm alarm = new Alarm();
         DoorHandler doorHandler = new DoorHandler(home);
-        Decorator decorator = new Decorator(alarm, doorHandler);
-        decorator.handle(event);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, doorHandler);
+        alarmDecorator.handle(event);
         //when
         boolean isFalse = testDoor.isOpen();
         //then
-        assertFalse(isFalse);
+        Assertions.assertFalse(isFalse);
     }
 
     @Test
@@ -71,8 +72,8 @@ public class DoorHandlerDecoratorCloseTest {
         Alarm alarm = new Alarm();
         alarm.switchToAnxietyMode();
         DoorHandler doorHandler = new DoorHandler(home);
-        Decorator decorator = new Decorator(alarm, doorHandler);
-        decorator.handle(event);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, doorHandler);
+        alarmDecorator.handle(event);
         //when
         boolean isTrue = testDoor.isOpen();
         //then

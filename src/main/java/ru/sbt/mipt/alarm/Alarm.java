@@ -41,9 +41,6 @@ public class Alarm implements Actionable {
         return state instanceof DeactivatedState;
     }
 
-    public void reactToEvent(SensorEvent event) {
-        state.reactToEvent(event);
-    }
 
     @Override
     public void execute(Action action) {

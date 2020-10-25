@@ -28,9 +28,4 @@ public class ActivatedState implements AlarmState{
         alarm.switchState(new AnxietyState(alarm));
     }
 
-    @Override
-    public void reactToEvent(SensorEvent event) {
-        System.out.println("Sending sms");
-        alarm.switchState(new AnxietyState(alarm));
-    }
 }

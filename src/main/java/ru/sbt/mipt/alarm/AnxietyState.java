@@ -27,8 +27,4 @@ public class AnxietyState implements AlarmState {
     public void switchToAnxietyMode() {
     }
 
-    @Override
-    public void reactToEvent(SensorEvent event) {
-        System.out.println("Sending sms");
-    }
 }
