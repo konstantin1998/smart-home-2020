@@ -8,25 +8,65 @@ import ru.sbt.mipt.handlers.*;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 @Configuration
 public class AppConfiguration {
+    SmartHome home = null;
+
+    private void createHome() {
+        home = HomeReader.createHome("smart-home-1.js");
+    }
+
     @Bean
-    public SensorEventsManager getEventManager() {
+    public Handler lightHandler() {
+        if (home == null) {
+            createHome();
+        }
+        return new LightHandler(home);
+    }
+
+    @Bean
+    public Handler doorHandler() {
+        if (home == null) {
+            createHome();
+        }
+        return new DoorHandler(home);
+    }
+
+    @Bean
+    public Handler doorLockHandler() {
+        if (home == null) {
+            createHome();
+        }
+        return new DoorLockHandler(home);
+    }
+
+    @Bean
+    public Handler hallHandler() {
+        if (home == null) {
+            createHome();
+        }
+        return new HallHandler(home, new CommandSender());
+    }
+
+    @Bean
+    public SensorEventsManager getEventManager(Collection<Handler> handlers) {
+
         // считываем состояние дома из файла
-        SmartHome smartHome = HomeReader.createHome("smart-home-1.js");
+        //SmartHome smartHome = HomeReader.createHome("smart-home-1.js");
         // начинаем цикл обработки событий
         SensorEventsManager sensorEventsManager = new SensorEventsManager();
-        ArrayList<Handler> handlers = new ArrayList<Handler>();
+//        ArrayList<Handler> handlers = new ArrayList<Handler>();
         Alarm alarm = new Alarm();
-        handlers.add(new AlarmDecorator(alarm, new LightHandler(smartHome)));
-        handlers.add(new AlarmDecorator(alarm, new DoorHandler(smartHome)));
-        handlers.add(new AlarmDecorator(alarm, new HallHandler(smartHome, new CommandSender())));
-        handlers.add(new AlarmDecorator(alarm, new DoorLockHandler(smartHome)));
+//        handlers.add(new AlarmDecorator(alarm, new LightHandler(smartHome)));
+//        handlers.add(new AlarmDecorator(alarm, new DoorHandler(smartHome)));
+//        handlers.add(new AlarmDecorator(alarm, new HallHandler(smartHome, new CommandSender())));
+//        handlers.add(new AlarmDecorator(alarm, new DoorLockHandler(smartHome)));
         // EventCircle eventCircle = new EventCircle(handlers, new EventProvider());
         // eventCircle.run();
         for (Handler handler : handlers) {
-            sensorEventsManager.registerEventHandler(new HandlerAdapter(handler));
+            sensorEventsManager.registerEventHandler(new HandlerAdapter(new AlarmDecorator(alarm, handler)));
         }
         return sensorEventsManager;
     }
