@@ -17,6 +17,7 @@ public class HomeCreator {
         Light light4 = new Light("4", false);
 
         Door door1 = new Door(true, "1");
+        door1.setLocked(true);
         Door door2 = new Door(false, "2");
         Door door3 = new Door(true, "3");
         Door door4 = new Door(false, "4");

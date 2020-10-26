@@ -5,7 +5,7 @@ import ru.sbt.mipt.sensor.SensorEventType;
 public class SensorEvent {
     private final SensorEventType type;
     private final String objectId;
-    private String code;
+    private final String code;
 
     public SensorEvent(SensorEventType type, String objectId) {
         this.type = type;
