@@ -12,9 +12,7 @@ public class AlarmDecorator implements Handler {
         this.handler = handler;
     }
 
-    private void sendSMS() {
-        System.out.println("Sending sms");
-    }
+
 
     @Override
     public void handle(SensorEvent event) {
@@ -23,7 +21,6 @@ public class AlarmDecorator implements Handler {
             handler.handle(event);
         } else {
             alarm.switchToAnxietyMode();
-            sendSMS();
         }
     }
 }
