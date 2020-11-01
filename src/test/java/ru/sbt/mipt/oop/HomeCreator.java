@@ -18,6 +18,7 @@ public class HomeCreator {
 
         Door door1 = new Door(true, "1");
         door1.setLocked(true);
+        door1.setEntrance();
         Door door2 = new Door(false, "2");
         Door door3 = new Door(true, "3");
         Door door4 = new Door(false, "4");

@@ -11,7 +11,6 @@ import ru.sbt.mipt.sensor.SensorEventType;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HallHandlerLightTest {
     private ArrayList<Boolean> expectedLightStates = new ArrayList<Boolean>();

@@ -37,4 +37,17 @@ public class AlarmHandlerTest {
         //then
         assertTrue(isTrue);
     }
+
+    @Test
+    public void triggerSwitchesAlarmToAnxietyMode() {
+        //given
+        Alarm alarm = new Alarm();
+        AlarmHandler alarmHandler = new AlarmHandler(alarm);
+        String id = "1";
+        alarmHandler.handle(new SensorEvent(SensorEventType.ALARM_TRIGGER, id));
+        //when
+        boolean isFalse = alarm.isDeactivated();
+        //then
+        assertFalse(isFalse);
+    }
 }

@@ -30,5 +30,14 @@ public class AlarmHandler implements Handler{
                 }
             });
         }
+
+        if (event.getType() == SensorEventType.ALARM_TRIGGER) {
+            alarm.execute((Object obj) -> {
+                if (obj instanceof Alarm) {
+                    Alarm currentAlarm = (Alarm)obj;
+                    currentAlarm.switchToAnxietyMode();
+                }
+            });
+        }
     }
 }
