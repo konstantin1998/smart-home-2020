@@ -13,6 +13,12 @@ public class SensorEvent {
         code = "";
     }
 
+    public SensorEvent(SensorEventType type) {
+        this.type = type;
+        this.objectId = "";
+        code = "";
+    }
+
     public SensorEvent(SensorEventType type, String objectId, String code) {
         this.type = type;
         this.objectId = objectId;

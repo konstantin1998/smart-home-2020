@@ -38,7 +38,6 @@ public class HallLightEnablerTest {
             Field lightsField = hall.getClass().getDeclaredField("lights");
             lightsField.setAccessible(true);
             lights = (Collection<Light>) lightsField.get(hall);
-
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
