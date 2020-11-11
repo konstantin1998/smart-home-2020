@@ -4,6 +4,7 @@ import org.junit.Test;
 import ru.sbt.mipt.alarm.Alarm;
 import ru.sbt.mipt.handlers.AlarmDecorator;
 import ru.sbt.mipt.handlers.HallHandler;
+import ru.sbt.mipt.handlers.SMSSender;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Light;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
@@ -36,7 +37,7 @@ public class HallHandlerAlarmDecoratorLightTest {
         Alarm alarm = new Alarm();
         String code = "123";
         alarm.activate(code);
-        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler, new SMSSender());
         alarmDecorator.handle(event);
 
         Action action = (Object obj) -> {
@@ -62,7 +63,7 @@ public class HallHandlerAlarmDecoratorLightTest {
         init();
         HallHandler hallHandler = new HallHandler(home, new CommandSender());
         Alarm alarm = new Alarm();
-        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler, new SMSSender());
         alarmDecorator.handle(event);
         //when
         Action action = (Object obj) -> {
@@ -85,7 +86,7 @@ public class HallHandlerAlarmDecoratorLightTest {
         Alarm alarm = new Alarm();
 
         alarm.switchToAnxietyMode();
-        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler, new SMSSender());
         alarmDecorator.handle(event);
 
         Action action = (Object obj) -> {

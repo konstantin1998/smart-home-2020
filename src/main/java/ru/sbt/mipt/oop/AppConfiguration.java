@@ -1,7 +1,10 @@
 package ru.sbt.mipt.oop;
+import com.coolcompany.smarthome.events.EventHandler;
 import com.coolcompany.smarthome.events.SensorEventsManager;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.AbstractApplicationContext;
 import ru.sbt.mipt.adapter.HandlerAdapter;
 import ru.sbt.mipt.alarm.Alarm;
 import ru.sbt.mipt.handlers.*;
@@ -12,61 +15,46 @@ import java.util.Collection;
 
 @Configuration
 public class AppConfiguration {
-    SmartHome home = null;
 
-    private void createHome() {
-        home = HomeReader.createHome("smart-home-1.js");
+    private final Alarm alarm = new Alarm();
+
+    private AlarmDecorator decorate(Handler handler) {
+        return new AlarmDecorator(alarm, handler, new SMSSender());
     }
 
     @Bean
-    public Handler lightHandler() {
-        if (home == null) {
-            createHome();
-        }
-        return new LightHandler(home);
+    public SmartHome getHome() {
+        AbstractApplicationContext context = new AnnotationConfigApplicationContext(HomeConfiguration.class);
+        return context.getBean(SmartHome.class);
     }
 
     @Bean
-    public Handler doorHandler() {
-        if (home == null) {
-            createHome();
-        }
-        return new DoorHandler(home);
+    public EventHandler lightHandler(SmartHome home) {
+        return  new HandlerAdapter(decorate(new LightHandler(home)));
     }
 
     @Bean
-    public Handler doorLockHandler() {
-        if (home == null) {
-            createHome();
-        }
-        return new DoorLockHandler(home);
+    public EventHandler doorHandler(SmartHome home) {
+        return new HandlerAdapter(decorate(new DoorHandler(home)));
     }
 
     @Bean
-    public Handler hallHandler() {
-        if (home == null) {
-            createHome();
-        }
-        return new HallHandler(home, new CommandSender());
+    public EventHandler doorLockHandler(SmartHome home) {
+        return new HandlerAdapter(decorate(new DoorLockHandler(home)));
     }
 
     @Bean
-    public SensorEventsManager getEventManager(Collection<Handler> handlers) {
+    public EventHandler hallHandler(SmartHome home) {
+        return new HandlerAdapter(decorate(new HallHandler(home, new CommandSender())));
+    }
 
-        // считываем состояние дома из файла
-        //SmartHome smartHome = HomeReader.createHome("smart-home-1.js");
-        // начинаем цикл обработки событий
+    @Bean
+    public SensorEventsManager getEventManager(Collection<EventHandler> handlers) {
+
         SensorEventsManager sensorEventsManager = new SensorEventsManager();
-//        ArrayList<Handler> handlers = new ArrayList<Handler>();
-        Alarm alarm = new Alarm();
-//        handlers.add(new AlarmDecorator(alarm, new LightHandler(smartHome)));
-//        handlers.add(new AlarmDecorator(alarm, new DoorHandler(smartHome)));
-//        handlers.add(new AlarmDecorator(alarm, new HallHandler(smartHome, new CommandSender())));
-//        handlers.add(new AlarmDecorator(alarm, new DoorLockHandler(smartHome)));
-        // EventCircle eventCircle = new EventCircle(handlers, new EventProvider());
-        // eventCircle.run();
-        for (Handler handler : handlers) {
-            sensorEventsManager.registerEventHandler(new HandlerAdapter(new AlarmDecorator(alarm, handler)));
+
+        for (EventHandler handler : handlers) {
+            sensorEventsManager.registerEventHandler(handler);
         }
         return sensorEventsManager;
     }

@@ -26,7 +26,6 @@ public class Alarm implements Actionable {
     }
 
     public void activate(String code) {
-        sendSMS();
         state.activate(code);
     }
 
@@ -40,10 +39,6 @@ public class Alarm implements Actionable {
 
     public boolean isDeactivated() {
         return state instanceof DeactivatedState;
-    }
-
-    private void sendSMS() {
-        System.out.println("Sending sms");
     }
 
     @Override

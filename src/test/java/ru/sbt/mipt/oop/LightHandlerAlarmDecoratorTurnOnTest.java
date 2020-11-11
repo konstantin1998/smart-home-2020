@@ -4,6 +4,7 @@ import org.junit.Test;
 import ru.sbt.mipt.alarm.Alarm;
 import ru.sbt.mipt.handlers.AlarmDecorator;
 import ru.sbt.mipt.handlers.LightHandler;
+import ru.sbt.mipt.handlers.SMSSender;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Light;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
@@ -41,7 +42,7 @@ public class LightHandlerAlarmDecoratorTurnOnTest {
         String code = "123";
         alarm.activate(code);
         LightHandler lightHandler = new LightHandler(home);
-        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, lightHandler);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, lightHandler, new SMSSender());
         alarmDecorator.handle(event);
         //when
         boolean isFalse = testLight.isOn();
@@ -55,7 +56,7 @@ public class LightHandlerAlarmDecoratorTurnOnTest {
         init();
         Alarm alarm = new Alarm();
         LightHandler lightHandler = new LightHandler(home);
-        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, lightHandler);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, lightHandler, new SMSSender());
         alarmDecorator.handle(event);
         //when
         boolean isTrue = testLight.isOn();
@@ -70,7 +71,7 @@ public class LightHandlerAlarmDecoratorTurnOnTest {
         Alarm alarm = new Alarm();
         alarm.switchToAnxietyMode();
         LightHandler lightHandler = new LightHandler(home);
-        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, lightHandler);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, lightHandler, new SMSSender());
         alarmDecorator.handle(event);
         //when
         boolean isFalse = testLight.isOn();

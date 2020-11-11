@@ -6,6 +6,7 @@ import ru.sbt.mipt.alarm.Alarm;
 import ru.sbt.mipt.handlers.AlarmDecorator;
 import ru.sbt.mipt.handlers.DoorHandler;
 import ru.sbt.mipt.handlers.HallHandler;
+import ru.sbt.mipt.handlers.SMSSender;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Door;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
@@ -43,7 +44,7 @@ public class HallHandlerAlarmDecoratorDoorTest {
         String code = "123";
         alarm.activate(code);
         HallHandler hallHandler = new HallHandler(home, new CommandSender());
-        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, hallHandler, new SMSSender());
         alarmDecorator.handle(event);
         //when
         boolean isTrue = testDoor.isOpen();
@@ -57,7 +58,7 @@ public class HallHandlerAlarmDecoratorDoorTest {
         init();
         Alarm alarm = new Alarm();
         DoorHandler doorHandler = new DoorHandler(home);
-        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, doorHandler);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, doorHandler, new SMSSender());
         alarmDecorator.handle(event);
         //when
         boolean isFalse = testDoor.isOpen();
@@ -72,7 +73,7 @@ public class HallHandlerAlarmDecoratorDoorTest {
         Alarm alarm = new Alarm();
         alarm.switchToAnxietyMode();
         DoorHandler doorHandler = new DoorHandler(home);
-        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, doorHandler);
+        AlarmDecorator alarmDecorator = new AlarmDecorator(alarm, doorHandler, new SMSSender());
         alarmDecorator.handle(event);
         //when
         boolean isTrue = testDoor.isOpen();
