@@ -14,9 +14,9 @@ public class Application{
         // начинаем цикл обработки событий
         ArrayList<Handler> handlers = new ArrayList<Handler>();
         Alarm alarm = new Alarm();
-        handlers.add(new AlarmDecorator(alarm, new LightHandler(smartHome)));
-        handlers.add(new AlarmDecorator(alarm, new DoorHandler(smartHome)));
-        handlers.add(new AlarmDecorator(alarm, new HallHandler(smartHome, new CommandSender())));
+        handlers.add(new AlarmDecorator(alarm, new LightHandler(smartHome), new SMSSender()));
+        handlers.add(new AlarmDecorator(alarm, new DoorHandler(smartHome), new SMSSender()));
+        handlers.add(new AlarmDecorator(alarm, new HallHandler(smartHome, new CommandSender()), new SMSSender()));
         EventCircle eventCircle = new EventCircle(handlers, new EventProvider());
         eventCircle.run();
     }

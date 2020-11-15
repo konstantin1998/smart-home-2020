@@ -6,15 +6,14 @@ import ru.sbt.mipt.sensor.SensorEvent;
 public class AlarmDecorator implements Handler {
     private final Handler handler;
     private final Alarm alarm;
+    private final SMSSender sender;
 
-    public AlarmDecorator(Alarm alarm, Handler handler) {
+    public AlarmDecorator(Alarm alarm, Handler handler, SMSSender sender) {
         this.alarm = alarm;
         this.handler = handler;
+        this.sender = sender;
     }
 
-    private void sendSMS() {
-        System.out.println("Sending sms");
-    }
 
     @Override
     public void handle(SensorEvent event) {
@@ -23,7 +22,7 @@ public class AlarmDecorator implements Handler {
             handler.handle(event);
         } else {
             alarm.switchToAnxietyMode();
-            sendSMS();
+            sender.sendSMS();
         }
     }
 }
