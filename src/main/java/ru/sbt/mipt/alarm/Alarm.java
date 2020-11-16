@@ -1,5 +1,6 @@
 package ru.sbt.mipt.alarm;
 
+import org.springframework.stereotype.Component;
 import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Actionable;
 import ru.sbt.mipt.sensor.SensorEvent;
