@@ -19,12 +19,9 @@ public class HandlerAdapter implements EventHandler {
     private final Map<String, SensorEventType> factory;
 
 
-    public HandlerAdapter(Handler handler) {
+    public HandlerAdapter(Handler handler, Map<String, SensorEventType> factory) {
         this.handler = handler;
-
-        AbstractApplicationContext adapterContext = new AnnotationConfigApplicationContext(AdapterConfiguration.class);
-        factory = (Map<String, SensorEventType>) adapterContext.getBean("factory");
-
+        this.factory = factory;
     }
 
     private SensorEvent translate(CCSensorEvent event) {

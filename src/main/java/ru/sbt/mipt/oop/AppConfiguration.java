@@ -19,8 +19,8 @@ import java.util.HashMap;
 @Configuration
 public class AppConfiguration {
 
-    @Bean(name = "factory")
-    public HashMap<String, SensorEventType> getFactory() {
+    @Bean
+    public HashMap<String, SensorEventType> createFactory() {
         HashMap<String, SensorEventType> factory = new HashMap<>();
         factory.put("LightIsOn", SensorEventType.LIGHT_ON);
         factory.put("LightIsOff", SensorEventType.LIGHT_OFF);
@@ -37,32 +37,32 @@ public class AppConfiguration {
     }
 
     @Bean
-    public SmartHome getHome() {
+    public SmartHome createHome() {
         return HomeReader.createHome("smart-home-1.js");
     }
 
     @Bean
-    public EventHandler lightHandler(SmartHome home) {
-        return new HandlerAdapter(decorate(new LightHandler(home)));
+    public EventHandler lightHandler(SmartHome home, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(decorate(new LightHandler(home)), factory);
     }
 
     @Bean
-    public EventHandler doorHandler(SmartHome home) {
-        return new HandlerAdapter(decorate(new DoorHandler(home)));
+    public EventHandler doorHandler(SmartHome home, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(decorate(new DoorHandler(home)), factory);
     }
 
     @Bean
-    public EventHandler doorLockHandler(SmartHome home) {
-        return new HandlerAdapter(decorate(new DoorLockHandler(home)));
+    public EventHandler doorLockHandler(SmartHome home, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(decorate(new DoorLockHandler(home)), factory);
     }
 
     @Bean
-    public EventHandler hallHandler(SmartHome home) {
-        return new HandlerAdapter(decorate(new HallHandler(home, new CommandSender())));
+    public EventHandler hallHandler(SmartHome home, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(decorate(new HallHandler(home, new CommandSender())), factory);
     }
 
     @Bean
-    public SensorEventsManager getEventManager(Collection<EventHandler> handlers) {
+    public SensorEventsManager createEventManager(Collection<EventHandler> handlers) {
 
         SensorEventsManager sensorEventsManager = new SensorEventsManager();
 
