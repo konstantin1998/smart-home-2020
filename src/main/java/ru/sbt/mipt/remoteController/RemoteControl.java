@@ -1,4 +1,4 @@
-package rc;
+package ru.sbt.mipt.remoteController;
 
 public interface RemoteControl {
     /**

@@ -1,4 +1,6 @@
-package rc;
+package ru.sbt.mipt.remoteController;
+
+import ru.sbt.mipt.remoteController.RemoteControl;
 
 public class RemoteControlRegistry {
 

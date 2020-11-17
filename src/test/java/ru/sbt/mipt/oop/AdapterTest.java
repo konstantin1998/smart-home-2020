@@ -10,6 +10,9 @@ import ru.sbt.mipt.homeAndComponents.Action;
 import ru.sbt.mipt.homeAndComponents.Door;
 import ru.sbt.mipt.homeAndComponents.Light;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
+import ru.sbt.mipt.sensor.SensorEventType;
+
+import java.util.HashMap;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,11 +24,13 @@ public class AdapterTest {
     @Test
     public void testOpensDoorWhenOpenEventReceived() {
         //given
+        HashMap<String, SensorEventType> factory = new Factory().getFactory();
+
         HomeCreator homeCreator = new HomeCreator();
         SmartHome home = homeCreator.createHome();
         CCSensorEvent event = new CCSensorEvent("DoorIsOpen", "2");
         DoorHandler doorHandler = new DoorHandler(home);
-        HandlerAdapter adoptedHandler = new HandlerAdapter(doorHandler);
+        HandlerAdapter adoptedHandler = new HandlerAdapter(doorHandler, factory);
         //when
         Action action = (Object obj) -> {
             if (obj instanceof Door) {
@@ -45,11 +50,12 @@ public class AdapterTest {
     @Test
     public void testClosesDoorWhenCloseEventReceived() {
         //given
+        HashMap<String, SensorEventType> factory = new Factory().getFactory();
         HomeCreator homeCreator = new HomeCreator();
         SmartHome home = homeCreator.createHome();
         CCSensorEvent event = new CCSensorEvent("DoorIsClosed", "1");
         DoorHandler doorHandler = new DoorHandler(home);
-        HandlerAdapter adoptedHandler = new HandlerAdapter(doorHandler);
+        HandlerAdapter adoptedHandler = new HandlerAdapter(doorHandler, factory);
         //when
         Action action = (Object obj) -> {
             if (obj instanceof Door) {
@@ -69,11 +75,12 @@ public class AdapterTest {
     @Test
     public void testTurnsOnLightWhenTurnOnEventReceived() {
         //given
+        HashMap<String, SensorEventType> factory = new Factory().getFactory();
         HomeCreator homeCreator = new HomeCreator();
         SmartHome home = homeCreator.createHome();
         CCSensorEvent event = new CCSensorEvent("LightIsOn", "2");
         LightHandler LightHandler = new LightHandler(home);
-        HandlerAdapter adoptedHandler = new HandlerAdapter(LightHandler);
+        HandlerAdapter adoptedHandler = new HandlerAdapter(LightHandler, factory);
         //when
         Action action = (Object obj) -> {
             if (obj instanceof Light) {
@@ -93,11 +100,12 @@ public class AdapterTest {
     @Test
     public void testTurnsOffLightWhenTurnOffEventReceived() {
         //given
+        HashMap<String, SensorEventType> factory = new Factory().getFactory();
         HomeCreator homeCreator = new HomeCreator();
         SmartHome home = homeCreator.createHome();
         CCSensorEvent event = new CCSensorEvent("LightIsOff", "1");
         LightHandler LightHandler = new LightHandler(home);
-        HandlerAdapter adoptedHandler = new HandlerAdapter(LightHandler);
+        HandlerAdapter adoptedHandler = new HandlerAdapter(LightHandler, factory);
         //when
         Action action = (Object obj) -> {
             if (obj instanceof Light) {
@@ -117,11 +125,12 @@ public class AdapterTest {
     @Test
     public void testLocksDoorWhenLockEventReceived() {
         //given
+        HashMap<String, SensorEventType> factory = new Factory().getFactory();
         HomeCreator homeCreator = new HomeCreator();
         SmartHome home = homeCreator.createHome();
         CCSensorEvent event = new CCSensorEvent("DoorIsLocked", "2");
         DoorLockHandler doorLockHandler = new DoorLockHandler(home);
-        HandlerAdapter adoptedHandler = new HandlerAdapter(doorLockHandler);
+        HandlerAdapter adoptedHandler = new HandlerAdapter(doorLockHandler, factory);
         //when
         Action action = (Object obj) -> {
             if (obj instanceof Door) {
@@ -141,11 +150,12 @@ public class AdapterTest {
     @Test
     public void testUnlocksDoorWhenUnlockEventReceived() {
         //given
+        HashMap<String, SensorEventType> factory = new Factory().getFactory();
         HomeCreator homeCreator = new HomeCreator();
         SmartHome home = homeCreator.createHome();
         CCSensorEvent event = new CCSensorEvent("DoorIsUnlocked", "1");
         DoorLockHandler doorLockHandler = new DoorLockHandler(home);
-        HandlerAdapter adoptedHandler = new HandlerAdapter(doorLockHandler);
+        HandlerAdapter adoptedHandler = new HandlerAdapter(doorLockHandler, factory);
         //when
         Action action = (Object obj) -> {
             if (obj instanceof Door) {

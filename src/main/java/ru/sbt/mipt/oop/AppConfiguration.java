@@ -6,95 +6,90 @@ import ru.sbt.mipt.adapter.HandlerAdapter;
 import ru.sbt.mipt.alarm.Alarm;
 import ru.sbt.mipt.handlers.*;
 import ru.sbt.mipt.homeAndComponents.SmartHome;
+import ru.sbt.mipt.sensor.SensorEventType;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 @Configuration
 public class AppConfiguration {
-    SmartHome home = null;
 
-    private void createHome() {
-        home = HomeReader.createHome("smart-home-1.js");
+    @Bean
+    public HashMap<String, SensorEventType> createFactory() {
+        HashMap<String, SensorEventType> factory = new HashMap<>();
+        factory.put("LightIsOn", SensorEventType.LIGHT_ON);
+        factory.put("LightIsOff", SensorEventType.LIGHT_OFF);
+        factory.put("DoorIsOpen", SensorEventType.DOOR_OPEN);
+        factory.put("DoorIsClosed", SensorEventType.DOOR_CLOSED);
+        factory.put("DoorIsLocked", SensorEventType.DOOR_LOCKED);
+        factory.put("DoorIsUnlocked", SensorEventType.DOOR_UNLOCKED);
+        return factory;
     }
 
     @Bean
-    public Handler lightHandler() {
-        if (home == null) {
-            createHome();
-        }
-        return new LightHandler(home);
+    public Alarm createAlarm() {
+        return new Alarm();
     }
 
     @Bean
-    public Handler doorHandler() {
-        if (home == null) {
-            createHome();
-        }
-        return new DoorHandler(home);
+    public SmartHome createHome () {
+        return HomeReader.createHome("smart-home-1.js");
     }
 
     @Bean
-    public Handler doorLockHandler() {
-        if (home == null) {
-            createHome();
-        }
-        return new DoorLockHandler(home);
+    public HandlerAdapter lightHandler(SmartHome home, Alarm alarm, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(new AlarmDecorator(alarm, new LightHandler(home)), factory);
     }
 
     @Bean
-    public Handler hallHandler() {
-        if (home == null) {
-            createHome();
-        }
-        return new HallHandler(home, new CommandSender());
+    public HandlerAdapter doorHandler(SmartHome home, Alarm alarm, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(new AlarmDecorator(alarm, new DoorHandler(home)), factory);
     }
 
     @Bean
-    public Handler alarmHandler() {
-        return new AlarmHandler(new Alarm());
+    public HandlerAdapter doorLockHandler(SmartHome home, Alarm alarm, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(new AlarmDecorator(alarm, new DoorLockHandler(home)), factory);
     }
 
     @Bean
-    public Handler hallLightHandler() {
-        if (home == null) {
-            createHome();
-        }
-        return new HallLightEnabler(home);
+    public HandlerAdapter hallHandler(SmartHome home, Alarm alarm, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(new AlarmDecorator(alarm, new HallHandler(home, new CommandSender())), factory);
     }
 
     @Bean
-    public Handler entranceDoorCloser() {
-        if (home == null) {
-            createHome();
-        }
-        return new EntranceDoorCloser(home);
+    public HandlerAdapter alarmHandler(Alarm alarm, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(new AlarmHandler(alarm), factory);
     }
 
     @Bean
-    public Handler lightsDisabler() {
-        if (home == null) {
-            createHome();
-        }
-        return new LightsDisabler(home);
+    public HandlerAdapter hallLightHandler(SmartHome home, Alarm alarm, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(new AlarmDecorator(alarm, new HallLightEnabler(home)), factory);
     }
 
     @Bean
-    public Handler lightsEnabler() {
-        if (home == null) {
-            createHome();
-        }
-        return new LightsEnabler(home);
+    public HandlerAdapter entranceDoorCloser(SmartHome home, Alarm alarm, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(new AlarmDecorator(alarm, new EntranceDoorCloser(home)), factory);
     }
 
     @Bean
-    public SensorEventsManager getEventManager(Collection<Handler> handlers) {
+    public HandlerAdapter lightsDisabler(SmartHome home, Alarm alarm, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(new AlarmDecorator(alarm, new LightsDisabler(home)), factory);
+    }
+
+    @Bean
+    public HandlerAdapter lightsEnabler(SmartHome home, Alarm alarm, HashMap<String, SensorEventType> factory) {
+        return new HandlerAdapter(new AlarmDecorator(alarm, new LightsEnabler(home)), factory);
+    }
+
+    @Bean
+    public SensorEventsManager createEventManager(Collection<HandlerAdapter> handlers) {
         SensorEventsManager sensorEventsManager = new SensorEventsManager();
-        Alarm alarm = new Alarm();
-
-        for (Handler handler : handlers) {
-            sensorEventsManager.registerEventHandler(new HandlerAdapter(new AlarmDecorator(alarm, handler)));
+        for (HandlerAdapter handler : handlers) {
+            sensorEventsManager.registerEventHandler(handler);
         }
         return sensorEventsManager;
     }
+
+
 }
