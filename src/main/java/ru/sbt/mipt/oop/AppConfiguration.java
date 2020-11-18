@@ -37,28 +37,49 @@ public class AppConfiguration {
     }
 
     @Bean
+    public SMSSender sender() {
+        return new SMSSender();
+    }
+
+    @Bean
     public SmartHome createHome() {
         return HomeReader.createHome("smart-home-1.js");
     }
 
     @Bean
-    public EventHandler lightHandler(SmartHome home, HashMap<String, SensorEventType> factory) {
-        return new HandlerAdapter(decorate(new LightHandler(home)), factory);
+    public EventHandler lightHandler(SmartHome home,
+                                     HashMap<String, SensorEventType> factory,
+                                     Alarm alarm,
+                                     SMSSender sender) {
+        Handler handler = new AlarmDecorator(alarm, new LightHandler(home), sender);
+        return new HandlerAdapter(handler, factory);
     }
 
     @Bean
-    public EventHandler doorHandler(SmartHome home, HashMap<String, SensorEventType> factory) {
-        return new HandlerAdapter(decorate(new DoorHandler(home)), factory);
+    public EventHandler doorHandler(SmartHome home,
+                                    HashMap<String, SensorEventType> factory,
+                                    Alarm alarm,
+                                    SMSSender sender) {
+        Handler handler = new AlarmDecorator(alarm, new DoorHandler(home), sender);
+        return new HandlerAdapter(handler, factory);
     }
 
     @Bean
-    public EventHandler doorLockHandler(SmartHome home, HashMap<String, SensorEventType> factory) {
-        return new HandlerAdapter(decorate(new DoorLockHandler(home)), factory);
+    public EventHandler doorLockHandler(SmartHome home,
+                                        HashMap<String, SensorEventType> factory,
+                                        Alarm alarm,
+                                        SMSSender sender) {
+        Handler handler = new AlarmDecorator(alarm, new DoorLockHandler(home), sender);
+        return new HandlerAdapter(handler, factory);
     }
 
     @Bean
-    public EventHandler hallHandler(SmartHome home, HashMap<String, SensorEventType> factory) {
-        return new HandlerAdapter(decorate(new HallHandler(home, new CommandSender())), factory);
+    public EventHandler hallHandler(SmartHome home,
+                                    HashMap<String, SensorEventType> factory,
+                                    Alarm alarm,
+                                    SMSSender sender) {
+        Handler handler = new AlarmDecorator(alarm, new HallHandler(home, new CommandSender()), sender);
+        return new HandlerAdapter(handler, factory);
     }
 
     @Bean
@@ -72,7 +93,4 @@ public class AppConfiguration {
         return sensorEventsManager;
     }
 
-    private AlarmDecorator decorate(Handler handler) {
-        return new AlarmDecorator(alarm(), handler, new SMSSender());
-    }
 }
