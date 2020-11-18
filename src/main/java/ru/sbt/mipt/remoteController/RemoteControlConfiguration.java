@@ -92,12 +92,12 @@ public class RemoteControlConfiguration {
     }
 
     @Bean
-    public RemoteController remoteController(HashMap<String, Command> buttonsToCommands, String rcId) {
+    public RemoteControl remoteController(HashMap<String, Command> buttonsToCommands, String rcId) {
         return new RemoteController(buttonsToCommands, rcId);
     }
 
     @Bean
-    public RemoteControlRegistry remoteControlRegistry(RemoteController remoteController, String rcId) {
+    public RemoteControlRegistry remoteControlRegistry(RemoteControl remoteController, String rcId) {
         RemoteControlRegistry registry = new RemoteControlRegistry();
         registry.registerRemoteControl(remoteController, rcId);
         return registry;
